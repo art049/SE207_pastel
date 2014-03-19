@@ -4,7 +4,7 @@
 #include "image.h"
 
 
-void image_read(Image * image, char *filename)
+void image_read(Image * image, const char *filename)
 {
    FILE           *file;
    png_structp     png_ptr;
@@ -70,7 +70,7 @@ void image_read(Image * image, char *filename)
 
 
 
-void image_write(Image * image, char *filename)
+void image_write(Image * image, const char *filename)
 {
    FILE           *file;
    png_structp     png_ptr;

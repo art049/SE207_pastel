@@ -19,8 +19,8 @@ typedef struct Image {
 extern "C" {
 #endif
 
-   void   image_read(Image * image, char *filename);
-   void   image_write(Image * image, char *filename);
+   void   image_read(Image * image, const char *filename);
+   void   image_write(Image * image, const char *filename);
 
 #ifdef __cplusplus
 }
