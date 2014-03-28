@@ -4,9 +4,10 @@ ARCH      ?= linux64
 CC        = gcc
 CXX       = g++
 
+CFLAGS   +=  -g
 CPPFLAGS  =  -isystem $(SYSTEMC)/include
 CXXFLAGS  =  -Wall -O2 -g
-LDFLAGS   =  -L$(SYSTEMC)/lib-$(ARCH)
+LDFLAGS   =  -g -L$(SYSTEMC)/lib-$(ARCH)
 LDLIBS    =  -lsystemc -pthread
 
 SOURCES_CPP = $(wildcard *.cpp)
@@ -15,7 +16,7 @@ OBJS        = $(patsubst %.cpp,%.o,$(SOURCES_CPP))
 OBJS       += $(patsubst %.c,%.o,$(SOURCES_C))
 EXE         = simulation.x
 
-DEPS = $(patsubst %.o,.%.dep,$(OBJS))
+DEPS = $(patsubst %.o,.%.d,$(OBJS))
 
 all: $(EXE)
 
@@ -36,11 +37,11 @@ clean :
 	-rm -f *~ *_old
 	-rm -f core
 
-.%.dep:%.c
-	$(CC) $(CPPFLAGS) -MMD -MF $@ -c -o $(patsubst %.c,%.o,$<) $<
-.%.dep:%.cpp
-	$(CXX) $(CPPFLAGS) -MMD -MF $@ -c -o $(patsubst %.cpp,%.o,$<) $<
+.%.d:%.c
+	$(CC) $(CPPFLAGS) -MM -MF $@ -MT $(patsubst %.c,%.o,$<) $<
+.%.d:%.cpp
+	$(CXX) $(CPPFLAGS) -MM -MF $@ -MT $(patsubst %.cpp,%.o,$<) $<
 
-ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMMGOALS),clean)
 -include $(DEPS)
 endif
