@@ -1,5 +1,5 @@
-SYSTEMC    = /comelec/softs/opt/systemc-2.3.0
-ARCH       = linux64
+SYSTEMC   ?= /comelec/softs/opt/systemc-2.3.0
+ARCH      ?= linux64
 
 CC        = gcc
 CXX       = g++
