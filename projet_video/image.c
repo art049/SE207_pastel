@@ -29,7 +29,7 @@ void image_read(Image * image, const char *filename)
 
    if (setjmp(png_jmpbuf(png_ptr)))
    {
-      png_destroy_read_struct(&png_ptr, &info_ptr, png_infopp_NULL);
+      png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
       fclose(file);
       exit(-1);
    }
@@ -43,7 +43,7 @@ void image_read(Image * image, const char *filename)
    if(color_type != PNG_COLOR_TYPE_GRAY) {
       fprintf(stderr, "Erreur sur le format de l'image d'entrée.\n");
       fprintf(stderr, "Le seul format PNG supporté est : niveaux de gris, 8bpp, sans canal alpha\n");
-      png_destroy_read_struct(&png_ptr, &info_ptr, png_infopp_NULL);
+      png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
       fclose(file);
       exit(-1);
    }
