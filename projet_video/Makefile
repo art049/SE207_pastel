@@ -4,11 +4,11 @@ ARCH      ?= linux64
 CC        = gcc
 CXX       = g++
 
-CFLAGS   +=  -g
+CFLAGS   +=  -g -Wall
 CPPFLAGS  =  -isystem $(SYSTEMC)/include
 CXXFLAGS  =  -Wall -O2 -g
 LDFLAGS   =  -g -L$(SYSTEMC)/lib-$(ARCH)
-LDLIBS    =  -lsystemc -pthread
+LDLIBS    =  -lsystemc -pthread -lpng
 
 SOURCES_CPP = $(wildcard *.cpp)
 SOURCES_C   = $(wildcard *.c)
@@ -21,13 +21,7 @@ DEPS = $(patsubst %.o,.%.d,$(OBJS))
 all: $(EXE)
 
 $(EXE) : $(OBJS)
-	$(CXX) $(LDFLAGS) $(OBJS) -o $@  -lsystemc -lpng 2>&1 | c++filt
-
-%.o:%.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
-
-%.o:%.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CXX) $(LDFLAGS) $(OBJS) -o $@  $(LDLIBS) 2>&1 | c++filt
 
 clean :
 	-rm -f $(EXE)
