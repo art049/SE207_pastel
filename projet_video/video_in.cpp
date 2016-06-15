@@ -1,11 +1,11 @@
 /*******************************************************************************
  * File   : video_in.h
- * Author : Alexis Polti
- * Date   : 12/03/2008
+ * Author : Alexis Polti/Tarik Graba
+ * Date   : 2008-2016
  * This program is released under the GNU Public License
  * Copyright : Télécom ParisTECH
  *
- * This component models a video input source
+ * This component models a video source
  *
  *****************************************************************************/
 
@@ -14,11 +14,9 @@
 #include <iomanip>
 #include "video_in.h"
 
-
 /***************************************************************************
- *      gen_sorties()
+ *      SC_THREAD principale
  ***************************************************************************/
-
 void VIDEO_IN::gen_sorties()
 {
    if(reset_n == false)
@@ -37,9 +35,8 @@ void VIDEO_IN::gen_sorties()
    // boucle infinie
    while(1)
    {
-      int i,j;
-      for(i=0; i<625; i++)
-         for(j=0; j<874; j++)
+      for(int i=0; i<625; i++)
+         for(int j=0; j<874; j++)
          {
             // on attend le prochain coup d'horloge
             wait();
@@ -57,7 +54,6 @@ void VIDEO_IN::gen_sorties()
             // Génération de VREF
             // VREF est actif pendant les 3 premières lignes d'une image
             vref = (i<3);
-
          }
 
       // On a fini une image, on passe à la suivante
@@ -66,11 +62,9 @@ void VIDEO_IN::gen_sorties()
    }
 }
 
-
-
-/***********************************
- *  Autres méthodes
- ***********************************/
+/****************************************
+ *  Lectures des images successives
+ ***************************************/
 
 void VIDEO_IN::read_image()
 {
@@ -110,3 +104,4 @@ void VIDEO_IN::read_image()
       exit(-1);
    }
 }
+

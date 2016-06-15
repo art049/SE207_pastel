@@ -1,20 +1,17 @@
 /**********************************************************************
  * File : system.cpp
- * Date : 12/03/2008
- * Author :  Alexis Polti
- * 
+ * Date : 2008-2016
+ * Author :  Alexis Polti/Tarik Graba
+ *
  * This program is released under the GNU public license
  * Télécom ParisTECH
  *
  * Testbench pour video_in
  **********************************************************************/
 
-#include "systemc.h"
+#include <systemc.h>
+#include <sstream>
 #include "video_in.h"
-
-#include <cstdio>
-#include <cstdlib>
-
 
 /***************************************************
  *	MAIN
@@ -22,26 +19,26 @@
 
 int sc_main (int argc, char *argv[])
 {
-
     int	ncycles;
 
-    /* La periode de l'horloge du signal video */
-    sc_time pix_period(74, SC_NS);
-
-
     if (argc == 2) {
-        ncycles = atoi(argv[1]);
-    } else{
-        printf("\n");
-        printf("The number of simulation cycles must be defined in the command line (-1 for unlimited)\n\n");
+        std::stringstream arg1(argv[1]);
+        arg1 >> ncycles;
+    } else {
+        cout
+           << endl
+           << "Le nombre de cycles de simulation doit être passé en argument (-1 pour une simulation illimitée)"
+           << endl
+           ;
         exit(1);
     }
 
-
-
     /******************************************************
-     *      Declaration des signaux
+     *      Déclaration des signaux
      *****************************************************/
+
+    /* La période de l'horloge du signal vidéo */
+    sc_time pix_period(74, SC_NS);
 
     sc_clock                        signal_clk("Clock", pix_period);
     sc_signal<bool>                 signal_resetn;
@@ -49,10 +46,8 @@ int sc_main (int argc, char *argv[])
     sc_signal<bool>                 signal_vref, signal_href;
     sc_signal<unsigned char>        signal_pixel;
 
-
-
     /********************************************************
-     *	Instanciation des composants
+     *	Instanciation des modules
      *******************************************************/
 
     VIDEO_IN video_in("VIDEO_GEN");
@@ -71,56 +66,52 @@ int sc_main (int argc, char *argv[])
      *	Traces
      ********************************************************/
 
-    /* open trace file */
+    /* fichier de traces */
     sc_trace_file * my_trace_file;
     my_trace_file = sc_create_vcd_trace_file ("simulation_trace");
     my_trace_file->set_time_unit(1,SC_NS);
 
+#define TRACE(x) sc_trace(my_trace_file, x, #x)
+
     /* chronogrammes signaux CLK et NRESET */
-    sc_trace(my_trace_file, signal_clk,         "clk");
-    sc_trace(my_trace_file, signal_resetn,      "reset_n");
+    TRACE( signal_clk );
+    TRACE( signal_resetn );
 
     /* chronogrammes video */
-    sc_trace(my_trace_file, signal_href,        "href");
-    sc_trace(my_trace_file, signal_vref,        "vref");
-    sc_trace(my_trace_file, signal_pixel,       "pixel");
+    TRACE( signal_href );
+    TRACE( signal_vref );
+    TRACE( signal_pixel );
 
+#undef TRACE
 
     /*********************************************************
      *	Simulation
      ********************************************************/
 
     /* Initialisation de la simulation */
+    sc_start(SC_ZERO_TIME);
     signal_resetn = true;
-    sc_start(signal_clk.period());
-    sc_start(signal_clk.period());
+    sc_start(10*signal_clk.period());
 
-    /* Generation d'un reset */
+    /* Génération d'un reset */
     signal_resetn = false;
-    sc_start(signal_clk.period());
-    sc_start(signal_clk.period());
-    sc_start(signal_clk.period());
+    sc_start(10*signal_clk.period());
     signal_resetn = true;
 
     /* Lancement de la simulation */
-    int i=0;
-    while(1) {
+    if(ncycles >= 0) {
+       cout << "Simulation lancée pour " << ncycles << " cycle de " << signal_clk.period() << endl;
+       sc_start(ncycles * signal_clk.period());
+    } else {
+       cout << "Simulation lancée en continu (CTRL-C pour l'arrêter)" << endl;
+       sc_start();
+    }
 
-        /* Si on a atteint le nombre de cycles demandés, on s'arrête */
-        if(ncycles > 0)
-            if(i >= ncycles)
-                break;
-        sc_start(signal_clk.period());
-        i++;
-
-    } // end simulation loop
-
-    cout << "End of simulation @ " << sc_time_stamp() << endl;
+    cout << "Fin de la simulation @ " << sc_time_stamp() << endl;
 
     /* Close trace file */
     sc_close_vcd_trace_file (my_trace_file);
 
-
     return EXIT_SUCCESS;
-
 }
+

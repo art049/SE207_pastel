@@ -1,7 +1,7 @@
 /*******************************************************************************
  * File   : video_in.h
- * Author : Alexis Polti
- * Date   : 12/03/2008
+ * Author : Alexis Polti/Tarik Graba
+ * Date   : 2008-2016
  * This program is released under the GNU Public License
  * Copyright : Télécom ParisTECH
  *
@@ -19,15 +19,12 @@
 #include <systemc.h>
 #include "image.h"
 
-
 /***************************************
- *  structure definition
+ *  définition du module
  **************************************/
-
 SC_MODULE(VIDEO_IN) {
 
    // IO PORTS
-
    sc_in<bool>         clk;
    sc_in<bool>         reset_n;
 
@@ -37,13 +34,11 @@ SC_MODULE(VIDEO_IN) {
    sc_out<unsigned char> pixel_out;
 
    /***************************************************
-    *  constructor
+    *  constructeur
     **************************************************/
-
    SC_CTOR(VIDEO_IN):base_name("wallace")
    {
-
-      cout << "Instanciation de " << name() <<" ..." <<  endl;
+      cout << "Instanciation de " << name() <<" ..." ;
 
       SC_THREAD (gen_sorties);
       sensitive << clk.pos();
@@ -55,22 +50,20 @@ SC_MODULE(VIDEO_IN) {
       read_image();
 
       cout << "... réussie" << endl;
-
    }
 
    /***************************************************
-    *  methods and structural parameters
+    *  méthodes et champs internes
     **************************************************/
    private:
 
    void gen_sorties();
    void read_image();
 
-   const std::string   base_name;              // nom de base des images d'entree
-   int                 current_image_number;   // numero de l'image courante
+   const std::string   base_name;              // nom de base des images d'entrée
+   int                 current_image_number;   // numéro de l'image courante
 
    Image               image;
-
 };
 
 #endif
