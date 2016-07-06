@@ -46,6 +46,7 @@ SC_MODULE(VIDEO_IN) {
       dont_initialize();
 
       current_image_number = 0;
+      reset_done  = false;
       image.pixel = NULL;
       read_image();
 
@@ -62,6 +63,7 @@ SC_MODULE(VIDEO_IN) {
 
    const std::string   base_name;              // nom de base des images d'entrée
    int                 current_image_number;   // numéro de l'image courante
+   bool                reset_done;
 
    Image               image;
 };

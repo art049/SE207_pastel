@@ -19,11 +19,13 @@
  ***************************************************************************/
 void VIDEO_IN::gen_sorties()
 {
+   reset_done = false;
    if(reset_n == false)
    {
       // Reset : on remet tous les paramètres à  zéro
       if(current_image_number !=0)
       {
+         // On ne charge la première image que si ce n'est pas déja fait
          current_image_number = 0;
          read_image();
       }
@@ -31,10 +33,13 @@ void VIDEO_IN::gen_sorties()
       href = false;
       vref = false;
       cout << "module: " << name() << "... reset!" << endl;
+      reset_done = true;
    }
    // boucle infinie
    while(1)
    {
+      if(!reset_done)
+         cerr << "modul: " << name() << " démarré sans reset!" << endl;
       for(int i=0; i<625; i++)
          for(int j=0; j<874; j++)
          {
