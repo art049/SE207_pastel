@@ -8,9 +8,9 @@ int sc_main(int argc, char * argv[]) {
   c = a ^ b;
   d = false;
   e = true;
-  cout << (a ^ b) << endl;
-  cout << (a & b) << endl;
-  cout << (a | e) << endl;
-  cout << (a & d) << endl;
+  cout << "(a ^ b) : " << (a ^ b) << endl;
+  cout << "(a & b) : " << (a & b) << endl;
+  cout << "(a | e) : " << (a | e) << endl;
+  cout << "(a & d) : " << (a & d) << endl;
   return 0;
 }
