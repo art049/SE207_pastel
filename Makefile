@@ -6,4 +6,4 @@ CXXFLAGS = -Wall -g
 LDFLAGS = -L$(SYSTEMC)/lib-$(ARCH)
 LDLIBS = -lsystemc
 
-default : seance_1/hello_world seance_1/type_logic seance_1/type_vector
+default : seance_1/hello_world seance_1/type_logic seance_1/type_vector seance_1/type_int_uint
