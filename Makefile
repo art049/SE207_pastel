@@ -5,6 +5,7 @@ CPPFLAGS = -isystem $(SYSTEMC)/include
 CXXFLAGS = -Wall -g
 LDFLAGS = -L$(SYSTEMC)/lib-$(ARCH)
 LDLIBS = -lsystemc
+seance_6 : seance_6/signalbuffer seance_6/fifopixels seance_6/mutex
 seance_5 : seance_5/pgcd
 seance_4 : seance_4/events
 seance_3 : seance_3/modules
