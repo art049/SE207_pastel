@@ -1,4 +1,4 @@
-SYSTEMC   ?= /comelec/softs/opt/systemc-2.3.0
+SYSTEMC   ?= /comelec/softs/opt/systemc/current
 ARCH      ?= linux64
 
 CC        = gcc
