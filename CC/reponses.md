@@ -24,17 +24,7 @@ On a les types suivants :
 - `sc_int<32>` Utile pour effectuer des calculs arithmétiques en plus d'opérations de séléction sur les bits.
 - `sc_bv<32>` Utile pour effectuer des opération sur les bits mais on ne peut pas effectuer de calculs arithmétiques.
 - `sc_lv<32>` De même que sc_bv, le fait que ce soit des valeurs logique rajoute l'état indéfini et l'état haute impédance (X et Z).
-*Ceci est un exemple de réponse. **Merci d'effacer ce paragraphe** (mais de **laisser les groupes de trois tirets et les lignes vides avant et après eux**) lorsque vous y écrirez la vôtre.*
 
-- `X` ceci est X
-- `Y` ceci est Y
-
-```{.cpp}
-// ceci est un exemple de code
-int main() {
-   return 0;
-}
-```
 ---
 
 ### Question 2
@@ -43,7 +33,11 @@ Pourquoi peut-on connecter *directement* la sortie (`sc_out<>`) d'un module à l
 
 ---
 Les `sc_out<>` et les `sc_in<>` sont des coquilles vides qui ne font que transmettre les appels à read ou à write au signal connecté.
-Ainsi quand on modifie la valeur de la sortie du premier module, la méthode write sera appelée. Cet appel sera propagé jusqu'a la sortie du deuxième module
+Ainsi quand on modifie la valeur de la sortie du premier module, la méthode write sera appelée. Cet appel sera propagé jusqu'a la sortie du deuxième module. Par la suite,
+l'appel sera encore propagé jusqu'au signal connecté à la sortie du sc_out du deuxième module.
+
+Si l'on connecte un `sc_out<>` à un `sc_in<>`, le sc_in<> ne pourra alors pas être connecté à un signal. Par conséquent la propagation sera arrétée (Normalement ce cas n'est
+même pas possible à observer puisqu'il est nécéssaire de connecter tout port à un signal).
 ---
 
 ### Question 3
