@@ -109,6 +109,10 @@ Dans une seconde implémentation nous utilisons un `sc_signal` dont nous examino
 Dans la première implémentation, le thread 1 verouille le mutex en premier puisque le second thread commence par un wait.
 Par la suite, le thread 2 se retrouve bloqué sur le lock du mutex. Pendant ce bloquage, le premier thread effectue l'étape 1 du traitement.
 Une fois l'étape 1 terminée, le mutex est liberé. Ainsi, le second thread se débloque et effectue le seconde étape du traitement.
+
+Dans la seconde implémentation, le thread 2 commence par un wait. Ainsi, le premier thread met end_step1 à false en premier. Par la suite,
+la première étape du traitement est effectuée. Pendant ce temps, le thread 2 boucle en attendant que end_step1 passe a true. Une fois que le traitement
+du thread 1 est terminé, end_step1 passe à true. À ce moment là, le second thread sa débloqué dés que le wait() sera passé.
 ---
 
 
