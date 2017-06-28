@@ -125,5 +125,6 @@ au niveau de la prédiction temporelle.
 
 
 ---
+
 Le SC_THREAD représente un autre fil d'éxécution, par conséquent il est difficile de modéliser au niveau RTL, même si l'on peut se rapprocher d'une modélisation RTL en plaçant des wait() pour simuler un module synchrone.
 ---
