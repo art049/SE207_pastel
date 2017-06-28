@@ -42,7 +42,8 @@ int main() {
 Pourquoi peut-on connecter *directement* la sortie (`sc_out<>`) d'un module à la sortie d'un autre module mais pas à une entrée (`sc_in<>`)?
 
 ---
-
+Les `sc_out<>` et les `sc_in<>` sont des coquilles vides qui ne font que transmettre les appels à read ou à write au signal connecté.
+Ainsi quand on modifie la valeur de la sortie du premier module, la méthode write sera appelée. Cet appel sera propagé jusqu'a la sortie du deuxième module
 ---
 
 ### Question 3
