@@ -19,7 +19,11 @@ En SystemC, pour modéliser des calculs sur des entiers signés, plusieurs types
 Donnez la liste de ces types (les grandes familles) en expliquant dans quels cas il est préférable d'utiliser l'un plutôt que l'autre.
 
 ---
-
+On a les types suivants :
+- `int32_t` Utile lorsque l'on veut simplement effectuer des opération arithmétiques sans action individuelle sur les bits.
+- `sc_int<32>` Utile pour effectuer des calculs arithmétiques en plus d'opérations de séléction sur les bits.
+- `sc_bv<32>` Utile pour effectuer des opération sur les bits mais on ne peut pas effectuer de calculs arithmétiques.
+- `sc_lv<32>` De même que sc_bv, le fait que ce soit des valeurs logique rajoute l'état indéfini et l'état haute impédance (X et Z).
 *Ceci est un exemple de réponse. **Merci d'effacer ce paragraphe** (mais de **laisser les groupes de trois tirets et les lignes vides avant et après eux**) lorsque vous y écrirez la vôtre.*
 
 - `X` ceci est X
@@ -48,7 +52,9 @@ Pourquoi peut-on connecter *directement* la sortie (`sc_out<>`) d'un module à l
 
 
 ---
-
+Si il y a une boucle infinie dans une SC_METHOD alors, le scheduler ne reprendra jamais la main puisque la méthode ne terminera pas. Ainsi la simulation
+sera bloquée.
+Si on rajoute wait, le résultat sera le même puisque l'appel à wait ne rendra pas le contrôle au handler.
 ---
 
 ### Question 4
@@ -61,14 +67,13 @@ Dans une première implémentation, nous utilisons un `sc_mutex` pour synchronis
 
 ```{.cpp}
     // Thread 1
-    step1_end_mutex.lock();
     // étape 1 du traitement
     step1_end_mutex.lock();
     …
     step1_end_mutex.unlock();
     wait();
-   
-   
+
+
     // Thread 2
     wait();
     // attente de la fin de l'étape 1
@@ -86,7 +91,7 @@ Dans une seconde implémentation nous utilisons un `sc_signal` dont nous examino
     …
     end_step1 = true;
     wait();
-   
+
     // Thread 2
     wait();
     // attente de la fin de l'étape 1
@@ -101,7 +106,9 @@ Dans une seconde implémentation nous utilisons un `sc_signal` dont nous examino
     * Voyez-vous des différences quant à la précision temporelle des deux implémentations?
 
 ---
-
+Dans la première implémentation, le thread 1 verouille le mutex en premier puisque le second thread commence par un wait.
+Par la suite, le thread 2 se retrouve bloqué sur le lock du mutex. Pendant ce bloquage, le premier thread effectue l'étape 1 du traitement.
+Une fois l'étape 1 terminée, le mutex est liberé. Ainsi, le second thread se débloque et effectue le seconde étape du traitement.
 ---
 
 
@@ -112,6 +119,6 @@ Dans une seconde implémentation nous utilisons un `sc_signal` dont nous examino
 
 
 ---
-
+Le SC_THREAD représente un autre fil d'éxécution, par conséquent il est difficile de modéliser au niveau RTL,
+même si l'on peut se rapprocher d'une modélisation RTL en plaçant des wait() pour simuler un module synchrone.
 ---
-
