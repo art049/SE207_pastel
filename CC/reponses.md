@@ -54,7 +54,8 @@ Pourquoi peut-on connecter *directement* la sortie (`sc_out<>`) d'un module à l
 ---
 Si il y a une boucle infinie dans une SC_METHOD alors, le scheduler ne reprendra jamais la main puisque la méthode ne terminera pas. Ainsi la simulation
 sera bloquée.
-Si on rajoute wait, le résultat sera le même puisque l'appel à wait ne rendra pas le contrôle au handler.
+Si on rajoute wait, le résultat sera le même puisque l'appel à wait ne rendra pas le contrôle au scheduler puisque le wait va provoquer l'attente d'un évenement de la liste
+de sensibilité de la SC_METHOD ainsi comme le scheduler ne controle plus la simulation, aucun évenement ne pourra être notifié et donc la simulation sera bloquée .
 ---
 
 ### Question 4
@@ -112,7 +113,8 @@ Une fois l'étape 1 terminée, le mutex est liberé. Ainsi, le second thread se 
 
 Dans la seconde implémentation, le thread 2 commence par un wait. Ainsi, le premier thread met end_step1 à false en premier. Par la suite,
 la première étape du traitement est effectuée. Pendant ce temps, le thread 2 boucle en attendant que end_step1 passe a true. Une fois que le traitement
-du thread 1 est terminé, end_step1 passe à true. À ce moment là, le second thread sa débloqué dés que le wait() sera passé.
+du thread 1 est terminé, end_step1 passe à true. À ce moment là, le second thread sa débloqué au prochain front montant.
+
 ---
 
 
