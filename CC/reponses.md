@@ -47,10 +47,10 @@ même pas possible à observer puisqu'il est nécéssaire de connecter tout port
 
 
 ---
-Si il y a une boucle infinie dans une SC_METHOD alors, le scheduler ne reprendra jamais la main puisque la méthode ne terminera pas. Ainsi la simulation
+Si il y a une boucle infinie dans une `SC_METHOD` alors, le scheduler ne reprendra jamais la main puisque la méthode ne terminera pas. Ainsi la simulation
 sera bloquée.
-Si on rajoute wait, le résultat sera le même puisque l'appel à wait ne rendra pas le contrôle au scheduler puisque le wait va provoquer l'attente d'un évenement de la liste
-de sensibilité de la SC_METHOD ainsi comme le scheduler ne controle plus la simulation, aucun évenement ne pourra être notifié et donc la simulation sera bloquée .
+Si on rajoute `wait()`, le résultat sera le même puisque l'appel à wait ne rendra pas le contrôle au scheduler puisque le wait va provoquer l'attente d'un évenement de la liste
+de sensibilité de la `SC_METHOD` ainsi comme le scheduler ne controle plus la simulation, aucun évenement ne pourra être notifié et donc la simulation sera bloquée .
 ---
 
 ### Question 4
@@ -127,6 +127,6 @@ au niveau de la prédiction temporelle.
 
 ---
 
-Le SC_THREAD représente un autre fil d'éxécution, par conséquent il est difficile de modéliser au niveau RTL, même si l'on peut se rapprocher d'une modélisation RTL en plaçant des wait() pour simuler un module synchrone.
+Le `SC_THREAD` représente un autre fil d'éxécution, par conséquent il est difficile de modéliser au niveau RTL, même si l'on peut se rapprocher d'une modélisation RTL en plaçant des `wait()`` pour simuler un module synchrone.
 
 ---
