@@ -110,6 +110,10 @@ Dans la seconde implémentation, le thread 2 commence par un wait. Ainsi, le pre
 la première étape du traitement est effectuée. Pendant ce temps, le thread 2 boucle en attendant que end_step1 passe a true. Une fois que le traitement
 du thread 1 est terminé, end_step1 passe à true. À ce moment là, le second thread sa débloqué au prochain front montant.
 
+
+
+Il n'y a pas de différences quand à la précision temporelle puisque l'appel de lock utilise en fait des wait() ainsi les deux implémentation sont équivalentes
+au niveau de la prédiction temporelle.
 ---
 
 
