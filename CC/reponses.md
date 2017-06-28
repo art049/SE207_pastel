@@ -54,6 +54,7 @@ Si il y a une boucle infinie dans une `SC_METHOD` alors, le scheduler ne reprend
 sera bloquée.
 Si on rajoute `wait()`, le résultat sera le même puisque l'appel à wait ne rendra pas le contrôle au scheduler puisque le wait va provoquer l'attente d'un évenement de la liste
 de sensibilité de la `SC_METHOD` ainsi comme le scheduler ne controle plus la simulation, aucun évenement ne pourra être notifié et donc la simulation sera bloquée .
+
 ---
 
 ### Question 4
