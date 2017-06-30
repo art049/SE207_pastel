@@ -13,6 +13,7 @@
 #include <sstream>
 #include "video_in.h"
 #include "video_out.h"
+#include "mean_filter.h"
 
 /***************************************************
  *	MAIN
@@ -46,6 +47,8 @@ int sc_main (int argc, char *argv[])
 
     sc_signal<bool>                 signal_vref, signal_href;
     sc_signal<unsigned char>        signal_pixel;
+    sc_signal<bool>                 signal_vref1, signal_href1;
+    sc_signal<unsigned char>        signal_pixel1;
 
     /********************************************************
      *	Instanciation des modules
@@ -53,6 +56,7 @@ int sc_main (int argc, char *argv[])
 
     VIDEO_IN video_in("VIDEO_GEN");
     VIDEO_OUT video_out("VIDEO_GATHER");
+    MEAN_FILTER mean_filter("MEAN_FILTER");
 
     /*********************************************************
      *	Connexion des composants
@@ -64,11 +68,20 @@ int sc_main (int argc, char *argv[])
     video_in.vref       (signal_vref);
     video_in.pixel_out  (signal_pixel);
 
+    mean_filter.clk        (signal_clk);
+    mean_filter.reset_n    (signal_resetn);
+    mean_filter.v_in  (signal_vref);
+    mean_filter.h_in  (signal_href);
+    mean_filter.p_in  (signal_pixel);
+    mean_filter.v_out (signal_vref1);
+    mean_filter.h_out (signal_href1);
+    mean_filter.p_out (signal_pixel1);
+
     video_out.clk        (signal_clk);
     video_out.reset_n    (signal_resetn);
-    video_out.href       (signal_href);
-    video_out.vref       (signal_vref);
-    video_out.pixel_in  (signal_pixel);
+    video_out.href       (signal_href1);
+    video_out.vref       (signal_vref1);
+    video_out.pixel_in  (signal_pixel1);
 
 
     /*********************************************************
