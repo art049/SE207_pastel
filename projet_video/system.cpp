@@ -12,6 +12,7 @@
 #include <systemc.h>
 #include <sstream>
 #include "video_in.h"
+#include "video_out.h"
 
 /***************************************************
  *	MAIN
@@ -51,6 +52,7 @@ int sc_main (int argc, char *argv[])
      *******************************************************/
 
     VIDEO_IN video_in("VIDEO_GEN");
+    VIDEO_OUT video_out("VIDEO_GATHER");
 
     /*********************************************************
      *	Connexion des composants
@@ -61,6 +63,13 @@ int sc_main (int argc, char *argv[])
     video_in.href       (signal_href);
     video_in.vref       (signal_vref);
     video_in.pixel_out  (signal_pixel);
+
+    video_out.clk        (signal_clk);
+    video_out.reset_n    (signal_resetn);
+    video_out.href       (signal_href);
+    video_out.vref       (signal_vref);
+    video_out.pixel_in  (signal_pixel);
+
 
     /*********************************************************
      *	Traces
@@ -114,4 +123,3 @@ int sc_main (int argc, char *argv[])
 
     return EXIT_SUCCESS;
 }
-
