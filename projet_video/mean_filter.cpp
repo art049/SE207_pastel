@@ -66,7 +66,7 @@ void MEAN_FILTER::gen_pixel()
       for(int i = 0; i < 720 * 3; i++)
          temp_buffer[i] = pixels.read();
 
-      for(output_line = 0; output_line < 625; output_line++){
+      for(output_line = 0; output_line < 624; output_line++){
          if(output_line == 0){
             for(int i = 0; i < 720; i++ )
                output_buffer[i] = temp_buffer[i];
@@ -97,7 +97,7 @@ void MEAN_FILTER::gen_pixel()
 
          for(int i = 0; i < 864; i++){
             v_out = output_line < 3;
-            h_out = (output_line<576) && (i<720);
+            h_out = (output_line<575) && (i<720);
             p_out = output_buffer[i%720];
             wait();
          }

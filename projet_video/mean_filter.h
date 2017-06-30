@@ -2,7 +2,6 @@
 #define MEAN_FILTER_H
 
 #include <systemc.h>
-#include "mean_filter.h"
 
 /***************************************
  *  définition du module

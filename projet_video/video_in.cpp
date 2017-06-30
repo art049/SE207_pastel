@@ -40,7 +40,7 @@ void VIDEO_IN::gen_sorties()
    {
       if(!reset_done)
          cerr << "modul: " << name() << " démarré sans reset!" << endl;
-      for(int i=0; i<625; i++)
+      for(int i=0; i<625; i++){
          for(int j=0; j<874; j++)
          {
             // on attend le prochain coup d'horloge
@@ -60,7 +60,7 @@ void VIDEO_IN::gen_sorties()
             // VREF est actif pendant les 3 premières lignes d'une image
             vref = (i<3);
          }
-
+       }
       // On a fini une image, on passe à la suivante
       current_image_number ++;
       read_image();
@@ -109,4 +109,3 @@ void VIDEO_IN::read_image()
       exit(-1);
    }
 }
-
